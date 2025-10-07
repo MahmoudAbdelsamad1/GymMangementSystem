@@ -14,4 +14,7 @@
     <ProjectReference Include="..\GymMangementDAL\GymMangementDAL.csproj" />
   </ItemGroup>
 
-</Project>  
+  <ItemGroup>
+    <Folder Include="NewFolder1\" />
+    <Folder Include="NewFolder\" />
+  </ItemGroup></Project>  
