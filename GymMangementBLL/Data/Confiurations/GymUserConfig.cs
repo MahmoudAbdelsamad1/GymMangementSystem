@@ -21,7 +21,7 @@ namespace GymMangementBLL.Data.Confiurations
 
             builder.ToTable("Email", tableBuilder =>
             {
-                tableBuilder.HasCheckConstraint("GymUserEmailCheck", "Email LIKE '%@%.%'");
+                tableBuilder.HasCheckConstraint("GymUserEmailCheck", "[Email LIKE '%@%.%'");
 
             });
 

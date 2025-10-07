@@ -17,5 +17,12 @@ namespace GymMangementBLL.Models
         public decimal Price { get; set; }
 
         public bool IsActive  { get; set; }
+
+        #region Relation ship with member 
+
+        public ICollection<MemberPlanModel> PlansMember { get; set; } = null!;
+
+
+        #endregion
     }
 }

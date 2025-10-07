@@ -23,6 +23,10 @@ namespace GymMangementBLL.Data.Confiurations
 
             });
 
+            builder.HasOne(X => X.Category).WithMany(X=> X.Sessions).HasForeignKey(X=>X.CategoryId);
+
+            builder.HasOne(X => X.SessionTrainer).WithMany(X => X.TeainerSessions).HasForeignKey(X => X.TrainerId);
+
         }
     }
 }

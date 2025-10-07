@@ -11,5 +11,27 @@ namespace GymMangementBLL.Models
         // jon date == Created date 
 
         public string? Photo { get; set; }
+
+        #region Relations ship Member - healtRecored 
+
+        public HealthRecordModel healthRecord { get; set; }
+
+        #endregion
+
+        #region Relation ship with Plan
+
+
+        public ICollection<MemberPlanModel> MembersPlan { get; set; } = null!;
+
+
+        #endregion
+
+        #region Relation ship with Sessiom
+
+
+        public ICollection<MemberSessionModel> MemberSessions { get; set; } = null!;
+
+
+        #endregion
     }
 }

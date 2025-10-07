@@ -12,5 +12,11 @@ namespace GymMangementBLL.Models
         public Specialties Specialties { get; set; }
 
         // HireDate == created at 
+
+        #region Relations ship with session
+
+        public ICollection<SessionModel> TeainerSessions { get; set; } = null!;
+
+        #endregion
     }
 }
