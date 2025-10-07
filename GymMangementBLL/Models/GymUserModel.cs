@@ -23,6 +23,7 @@ namespace GymMangementBLL.Models
         public AddressModel Address { get; set; }
 
 
+
     }
 
 
