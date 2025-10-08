@@ -20,7 +20,7 @@ namespace GymMangementDAL.Data.Configurations
 
             builder.Property(p => p.Price).HasPrecision(10,2);
 
-            builder.ToTable("DurationDays", tb =>
+            builder.ToTable( tb =>
             {
 
                 tb.HasCheckConstraint("PlanDurationDaysCheck", " DurationDays Between 1 and 365 ");

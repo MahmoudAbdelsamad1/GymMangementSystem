@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GymMangementDAL.Models
 {
+
+    [Table("Plan")]
     public class Plan : BaseModel 
     {
         public string Name { get; set; } = null!;
