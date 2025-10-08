@@ -1,4 +1,4 @@
-﻿using GymMangementBLL.Models;
+﻿using GymMangementDAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymMangementBLL.Data.Confiurations
+namespace GymMangementDAL.Data.Configurations
 {
     internal class SessionConfig : IEntityTypeConfiguration<SessionModel>
     {
@@ -23,9 +23,9 @@ namespace GymMangementBLL.Data.Confiurations
 
             });
 
-            builder.HasOne(X => X.Category).WithMany(X=> X.Sessions).HasForeignKey(X=>X.CategoryId);
+            builder.HasOne(X => X.SessionCategory).WithMany(X=> X.Sessions).HasForeignKey(X=>X.CategoryId);  // 
 
-            builder.HasOne(X => X.SessionTrainer).WithMany(X => X.TeainerSessions).HasForeignKey(X => X.TrainerId);
+            builder.HasOne(X => X.SessionTrainer).WithMany(X => X.TrainerSessions).HasForeignKey(X => X.TrainerId);
 
         }
     }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymMangementBLL.Models.Enums
+namespace GymMangementDAL.Models.Enums
 {
-    internal enum Specialties
+    public enum Specialties
     {
         GeneralFitness =1,
         Yoga,

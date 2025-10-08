@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymMangementBLL.Models
+namespace GymMangementDAL.Models
 {
-    internal class MemberPlanModel : BaseModel
+    public class MemberPlanModel : BaseModel
     {
         // StartDate == CreatedDate
 
 
         public DateTime EndDate  { get; set; }
-        public int MemberId { get; set; }
-        public int PlanId { get; set; }
-        public MemberModel Member { get; set; } = null!;
-        public Plan Plan { get; set; } = null!;
+        public int MemberId { get; set; }  // 
+        public int PlanId { get; set; }  // 
+        public MemberModel Member { get; set; } = null!;  // 
+        public Plan Plan { get; set; } = null!;  // 
 
         public string  Status { get {
 

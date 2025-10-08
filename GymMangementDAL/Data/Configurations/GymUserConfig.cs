@@ -1,4 +1,4 @@
-﻿using GymMangementBLL.Models;
+﻿using GymMangementDAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymMangementBLL.Data.Confiurations
+namespace GymMangementDAL.Data.Configurations
 {
-    internal class GymUserConfig<T> : IEntityTypeConfiguration<T> where T : GymUserModel
+    internal  class GymUserConfig<T> : IEntityTypeConfiguration<T> where T : GymUserModel
     {
         public void Configure(EntityTypeBuilder<T> builder)
         {
@@ -19,15 +19,11 @@ namespace GymMangementBLL.Data.Confiurations
             builder.Property(p => p.Phone).HasColumnType("varchar").HasMaxLength(11);
 
 
-            builder.ToTable("Email", tableBuilder =>
+            builder.ToTable(tableBuilder =>
             {
                 tableBuilder.HasCheckConstraint("GymUserEmailCheck", "[Email LIKE '%@%.%'");
-
-            });
-
-            builder.ToTable("Phone", tableBuilder =>
-            {
                 tableBuilder.HasCheckConstraint("GymUserPhoneCheck", "Phone LIKE '01%' and Phone not like '%[^0-9]%'");
+
 
             });
             

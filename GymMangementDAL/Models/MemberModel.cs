@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymMangementBLL.Models
+namespace GymMangementDAL.Models
 {
-    internal class MemberModel : GymUserModel
+    public class MemberModel : GymUserModel
     {
         // jon date == Created date 
 
@@ -14,14 +14,14 @@ namespace GymMangementBLL.Models
 
         #region Relations ship Member - healtRecored 
 
-        public HealthRecordModel healthRecord { get; set; }
+        public HealthRecordModel healthRecord { get; set; } = null!; // 
 
         #endregion
 
         #region Relation ship with Plan
 
 
-        public ICollection<MemberPlanModel> MembersPlan { get; set; } = null!;
+        public ICollection<MemberPlanModel> MembersPlan { get; set; } = null!; // 
 
 
         #endregion
@@ -29,7 +29,7 @@ namespace GymMangementBLL.Models
         #region Relation ship with Sessiom
 
 
-        public ICollection<MemberSessionModel> MemberSessions { get; set; } = null!;
+        public ICollection<MemberSessionModel> MemberSessions { get; set; } = null!;  // 
 
 
         #endregion

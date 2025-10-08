@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymMangementBLL.Models
+namespace GymMangementDAL.Models
 {
-    internal class Category : BaseModel
+    public class Category : BaseModel
     {
         public string Name { get; set; } = null!;
 
         #region Relation ship with Session
 
-        public ICollection<SessionModel> Sessions { get; set; } = null!;
+        public ICollection<SessionModel> Sessions { get; set; } = null!; //
 
         #endregion
 

@@ -1,13 +1,13 @@
-﻿using GymMangementBLL.Models.Enums;
+﻿using GymMangementDAL.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymMangementBLL.Models
+namespace GymMangementDAL.Models
 {
-    internal class TrainerModel : GymUserModel
+    public class TrainerModel : GymUserModel
     {
         public Specialties Specialties { get; set; }
 
@@ -15,7 +15,7 @@ namespace GymMangementBLL.Models
 
         #region Relations ship with session
 
-        public ICollection<SessionModel> TeainerSessions { get; set; } = null!;
+        public ICollection<SessionModel> TrainerSessions { get; set; } = null!;  //
 
         #endregion
     }

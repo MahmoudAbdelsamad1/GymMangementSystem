@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymMangementBLL.Models.Enums
+namespace GymMangementDAL.Models.Enums
 {
-    internal enum Gender
+    public enum Gender
     {
         Male =1, // to prevent default value by 0
         FeMale

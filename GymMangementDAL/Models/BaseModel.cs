@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymMangementBLL.Models
+namespace GymMangementDAL.Models
 {
-    internal abstract class BaseModel
+    public abstract class BaseModel
     {
 
         public int Id { get; set; }
@@ -14,10 +14,6 @@ namespace GymMangementBLL.Models
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
-        #region Relation ship with plan
-
-        public ICollection<> MyProperty { get; set; }
-
-        #endregion
+     
     }
 }

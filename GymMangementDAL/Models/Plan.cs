@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymMangementBLL.Models
+namespace GymMangementDAL.Models
 {
-    internal class Plan : BaseModel 
+    public class Plan : BaseModel 
     {
         public string Name { get; set; } = null!;
 
@@ -20,7 +20,7 @@ namespace GymMangementBLL.Models
 
         #region Relation ship with member 
 
-        public ICollection<MemberPlanModel> PlansMember { get; set; } = null!;
+        public ICollection<MemberPlanModel> PlansMember { get; set; } = null!;  //
 
 
         #endregion
