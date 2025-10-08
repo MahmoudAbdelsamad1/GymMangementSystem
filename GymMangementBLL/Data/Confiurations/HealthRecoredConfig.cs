@@ -13,7 +13,7 @@ namespace GymMangementBLL.Data.Confiurations
     {
         public void Configure(EntityTypeBuilder<HealthRecordModel> builder)
         {
-            builder.ToTable("MemberModel").HasKey(X => X.Id);
+            builder.ToTable("Members").HasKey(X => X.Id);
 
             builder.HasOne<MemberModel>().WithOne(X => X.healthRecord).HasForeignKey<HealthRecordModel>(X => X.Id);
         }

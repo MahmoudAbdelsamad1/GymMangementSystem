@@ -13,5 +13,11 @@ namespace GymMangementBLL.Models
 
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
+
+        #region Relation ship with plan
+
+        public ICollection<> MyProperty { get; set; }
+
+        #endregion
     }
 }
