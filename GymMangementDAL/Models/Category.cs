@@ -12,6 +12,7 @@ namespace GymMangementDAL.Models
 
         #region Relation ship with Session
 
+
         public ICollection<SessionModel> Sessions { get; set; } = null!; //
 
         #endregion
