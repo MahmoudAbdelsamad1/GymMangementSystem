@@ -1,4 +1,6 @@
 using GymMangementDAL.Data.Contextes;
+using GymMangementDAL.Repositories.Classes;
+using GymMangementDAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymMangementPL
@@ -20,6 +22,8 @@ namespace GymMangementPL
             
             
             } );
+
+            builder.Services.AddScoped(typeof(IGenericRepository<> ), typeof(GenericRepository<>) );
 
             var app = builder.Build();
 
