@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymMangementBLL.Models
+namespace GymMangementDAL.Models
 {
-    internal class HealthRecordModel:BaseModel
+    public class HealthRecordModel:BaseModel
     {
         public int Height { get; set; }
         public int Weight { get; set; }
