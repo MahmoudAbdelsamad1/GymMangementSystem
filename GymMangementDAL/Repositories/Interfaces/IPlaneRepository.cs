@@ -13,10 +13,6 @@ namespace GymMangementDAL.Repositories.Interfaces
 
         Plan? GetById(int id);
 
-        int DeletePlan(Plan plan);
-
-        int AddPlan(Plan plan);
-
         int UpdatePlan(Plan plan);
     }
 }
