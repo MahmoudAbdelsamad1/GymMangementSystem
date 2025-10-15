@@ -30,12 +30,9 @@ namespace GymMangementBLL.Services.Classes
             try
             {
                 // firstly we must check if the phone and Email are unique
-                bool IsMemberCreated = false;
-                bool IsEmailUnique = _memberRepository.GetAll(X => X.Email == member.Email).Any();
-                bool IsPhoneUnique = _memberRepository.GetAll(X => X.Phone == member.Phone).Any();
 
-                if (IsEmailUnique && IsPhoneUnique)
-                {
+                if (IsEmailExist(member.Email) || IsPhoneExist(member.Phone)) return false;
+               else{
 
                     MemberModel memberModel = new MemberModel()
                     {
@@ -62,10 +59,9 @@ namespace GymMangementBLL.Services.Classes
 
                     };
 
-                    IsMemberCreated = _memberRepository.Add(memberModel) > 0;
+                   return _memberRepository.Add(memberModel) > 0;
                 }
 
-                return IsMemberCreated;
             }
             catch (Exception ex) { 
             
@@ -159,5 +155,84 @@ namespace GymMangementBLL.Services.Classes
             };
             else return null;
         }
+
+        public UpdateMemberViewModel? GetMemberToUpdate(int MemberId)
+        {
+
+            var member = _memberRepository.GetById(MemberId);
+            if (member is not null) return new UpdateMemberViewModel()
+            {
+
+                Name = member.Name,
+                Email = member.Email,
+                Phone = member.Phone,
+                BuildingNumber = member.Address.BuildingNum,
+                Street = member.Address.Street,
+                City = member.Address.City,
+                Photo = member.Photo,
+
+
+
+            };
+            else return null;
+
+        }
+
+        public bool UpdateMember( int memberId , UpdateMemberViewModel updatedMember)
+        {
+            try
+            {
+                var member = _memberRepository.GetById(memberId);
+                if(member is  null) return false;
+                else
+                {
+                    if (IsEmailExist(updatedMember.Email) || IsPhoneExist(updatedMember.Phone)) return false;
+                    else { 
+                    
+                        member.Name = updatedMember.Name;
+                        member.Email = updatedMember.Email;
+                        member.Phone = updatedMember.Phone;
+                        member.Photo = updatedMember.Photo;
+                        member.Address = new AddressModel()
+                        {
+
+                            BuildingNum = updatedMember.BuildingNumber,
+                            City = updatedMember.City,
+                            Street = updatedMember.Street,
+
+                        };
+
+                        return _memberRepository.Update(member) > 0;
+                    
+                    }
+
+
+                }
+
+            }
+            catch (Exception ex) { 
+            
+                return false;
+            }
+        }
+
+
+        #region Helper
+
+        private bool IsEmailExist(string email)
+        {
+           return _memberRepository.GetAll(X=> X.Email == email).Any();
+
+
+        }
+
+        private bool IsPhoneExist(string phone)
+        {
+            return _memberRepository.GetAll(X => X.Phone == phone).Any();
+
+
+        }
+
+        #endregion
     }
 }
