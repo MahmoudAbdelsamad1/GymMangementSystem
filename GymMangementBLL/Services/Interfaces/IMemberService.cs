@@ -23,5 +23,7 @@ namespace GymMangementBLL.Services.Interfaces
 
         bool UpdateMember( int memberId , UpdateMemberViewModel updatedMember);
 
+        bool DeleteMember (int MemberId);
+
     }
 }

@@ -17,13 +17,19 @@ namespace GymMangementBLL.Services.Classes
         private readonly IGenericRepository<MemberModel> _memberRepository;
         private readonly IGenericRepository<MemberPlanModel> _memberPlanRepository;
         private readonly IGenericRepository<HealthRecordModel> _healthRecordRepository;
+        private readonly IGenericRepository<MemberSessionModel> _memberSessionsRepository;
+        private readonly IPlaneRepository _planeRepository;
 
         public MemberService(IGenericRepository<MemberModel> memberRepository,
-            IGenericRepository<MemberPlanModel> memberPlanRepository, IGenericRepository<HealthRecordModel> healthRecordRepository)
+            IGenericRepository<MemberPlanModel> memberPlanRepository,
+            IGenericRepository<HealthRecordModel> healthRecordRepository, 
+            IGenericRepository<MemberSessionModel> memberSessionsRepository, IPlaneRepository planeRepository)
         {
             _memberRepository = memberRepository;
             _memberPlanRepository = memberPlanRepository;
              _healthRecordRepository = healthRecordRepository;
+            _memberSessionsRepository = memberSessionsRepository;
+            _planeRepository = planeRepository;
         }
         public bool CreateMember(CreateMemberViewModel member)
         {
@@ -69,6 +75,44 @@ namespace GymMangementBLL.Services.Classes
                 return false;
 
             }
+        }
+
+        public bool DeleteMember(int MemberId)
+        {
+
+            var member = _memberRepository.GetById(MemberId);
+
+            if (member is null) return false;
+            // miust check there is no active sessions 
+            // member.MemberSessions.Select(X=> X.Session.StartAt > DateTime.Now).Any();
+            bool hasActiveSessions = _memberSessionsRepository.GetAll(X => X.Id == member.Id && X.Session.StartAt > DateTime.Now).Any();  
+
+            if (hasActiveSessions) return false;
+            // must delete any plans related wih this member before delete member (avid exeption for relation between them)
+            var memberPlans = _memberSessionsRepository.GetAll(X=>X.Id == MemberId && X.Session.StartAt > DateTime.Now);
+            try
+            {
+                if (memberPlans.Any())
+                {
+                    foreach (var item in memberPlans)
+                    {
+                        _memberSessionsRepository.Delete(item);
+                    }
+
+                }
+
+                return  _memberRepository.Delete(member) > 0 ;
+
+            }
+            catch (Exception ex) {
+
+
+                return false;
+            
+            }
+          
+
+
         }
 
         public IEnumerable<MemberViewModel> GetAll()

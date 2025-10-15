@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GymMangementDAL.Repositories.Classes
 {
-    internal class PlanRepository : IPlaneRepository
+    public class PlanRepository : IPlaneRepository
     {
 
         private readonly GymMangementDbContext _dbContext;
