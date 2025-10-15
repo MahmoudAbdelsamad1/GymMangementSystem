@@ -9,7 +9,7 @@ namespace GymMangementDAL.Repositories.Interfaces
 {
     public interface IGenericRepository<TEntity> where TEntity : BaseModel, new()
     {
-        IEnumerable<TEntity> GetAll();
+        IEnumerable<TEntity> GetAll(Func<TEntity,bool>? condition = null);
 
         TEntity? GetById(int id);
 

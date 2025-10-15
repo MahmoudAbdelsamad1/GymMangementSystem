@@ -10,6 +10,9 @@ namespace GymMangementBLL.Services.Interfaces
     public interface IMemberService
     {
 
-        public IEnumerable<MemberViewModel> GetAll { get; set; }
+        public IEnumerable<MemberViewModel> GetAll();
+
+        public bool CreateMember(CreateMemberViewModel member);
+
     }
 }

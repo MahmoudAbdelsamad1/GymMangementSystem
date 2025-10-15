@@ -21,9 +21,51 @@ namespace GymMangementBLL.Services.Classes
             _memberRepository = memberRepository;
         }
 
+        public bool CreateMember(CreateMemberViewModel member)
+        {
+            // firstly we must check if the phone and Email are unique
+            bool IsMemberCreated = false;
+            bool IsEmailUnique = _memberRepository.GetAll(X => X.Email == member.Email).Any();
+            bool IsPhoneUnique = _memberRepository.GetAll(X => X.Phone == member.Phone).Any();
+
+            if (IsEmailUnique && IsPhoneUnique)
+            {
+
+                MemberModel memberModel = new MemberModel()
+                {
+                    Name = member.Name,
+                    Address = new AddressModel()
+                    {
+                        BuildingNum = member.BuildingNumber,
+                        City = member.City,
+                        Street = member.Street,
+                    },
+                    Email = member.Email,
+                    CreatedDate = DateTime.Now,
+                    DateOfBirth = member.DateOfBirth,
+                    Gender = member.Gender,
+                    healthRecord = new HealthRecordModel()
+                    {
+                        BloodType = member.HealthRecord.BloodType,
+                        Height = member.HealthRecord.Height,
+                        Note = member.HealthRecord.Note,
+                        Weight = member.HealthRecord.Weight
+                    },
+                    Phone = member.Phone,
+
+
+                };
+
+                IsMemberCreated = _memberRepository.Add(memberModel) > 0;
+            }
+
+            return IsMemberCreated;
+
+        }
 
         public IEnumerable<MemberViewModel> GetAll()
         {
+
 
             var memberModels = _memberRepository.GetAll();
 
@@ -54,8 +96,6 @@ namespace GymMangementBLL.Services.Classes
                 return memberViewModels;
 
             }
-
-
         }
     }
 }
