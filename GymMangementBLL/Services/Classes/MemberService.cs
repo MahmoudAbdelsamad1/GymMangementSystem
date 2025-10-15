@@ -16,11 +16,14 @@ namespace GymMangementBLL.Services.Classes
     {
         private readonly IGenericRepository<MemberModel> _memberRepository;
         private readonly IGenericRepository<MemberPlanModel> _memberPlanRepository;
+        private readonly IGenericRepository<HealthRecordModel> _healthRecordRepository;
 
-        public MemberService(IGenericRepository<MemberModel> memberRepository, IGenericRepository<MemberPlanModel> memberPlanRepository)
+        public MemberService(IGenericRepository<MemberModel> memberRepository,
+            IGenericRepository<MemberPlanModel> memberPlanRepository, IGenericRepository<HealthRecordModel> healthRecordRepository)
         {
             _memberRepository = memberRepository;
             _memberPlanRepository = memberPlanRepository;
+             _healthRecordRepository = healthRecordRepository;
         }
         public bool CreateMember(CreateMemberViewModel member)
         {
@@ -139,6 +142,22 @@ namespace GymMangementBLL.Services.Classes
                 return memberDetails;
 
             }else return null;
+        }
+
+        public HealthRecordViewModel? GetMemberHealthDetails(int MemberId)
+        {
+           var healthRecord =   _healthRecordRepository.GetById(MemberId);
+
+            if (healthRecord is not null) return new HealthRecordViewModel()
+            {
+
+                BloodType = healthRecord.BloodType,
+                Height = healthRecord.Height,
+                Note = healthRecord.Note,
+                Weight = healthRecord.Weight,
+
+            };
+            else return null;
         }
     }
 }
