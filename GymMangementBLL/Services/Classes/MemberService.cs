@@ -15,10 +15,12 @@ namespace GymMangementBLL.Services.Classes
 
     {
         private readonly IGenericRepository<MemberModel> _memberRepository;
+        private readonly IGenericRepository<MemberPlanModel> _memberPlanRepository;
 
-        public MemberService(IGenericRepository<MemberModel> memberRepository)
+        public MemberService(IGenericRepository<MemberModel> memberRepository, IGenericRepository<MemberPlanModel> memberPlanRepository)
         {
             _memberRepository = memberRepository;
+            _memberPlanRepository = memberPlanRepository;
         }
 
         public bool CreateMember(CreateMemberViewModel member)
@@ -96,6 +98,40 @@ namespace GymMangementBLL.Services.Classes
                 return memberViewModels;
 
             }
+        }
+
+        public MemberViewModel? GetMemberDetails(int id)
+        {
+            var member = _memberRepository.GetById(id);
+
+            if(member is not null)
+            {
+                var memberDetails =  new MemberViewModel()
+                {
+
+                    Name = member.Name,
+                    Phone = member.Phone,
+                    Photo = member.Photo,
+                    Email = member.Email,
+                    Address = $"{member.Address.BuildingNum}- {member.Address.Street}-{member.Address.City}",
+                    Gender = member.Gender.ToString(),
+                    DateOfBirth = member.DateOfBirth.ToShortDateString()
+                };
+
+                // get active plan for mevember  
+
+                var ActivePlan = _memberPlanRepository.GetAll(X=>X.Id == member.Id && X.Status == "Active").FirstOrDefault();
+
+                if (ActivePlan is not null) { 
+                
+                    memberDetails.MemberSessionStartDate = ActivePlan.CreatedDate.ToLongDateString();
+                    memberDetails.MemberSessionEndDate = ActivePlan.EndDate.ToLongDateString();
+                    memberDetails.PlanName = ActivePlan.Plan.Name;
+                }
+
+                return memberDetails;
+
+            }else return null;
         }
     }
 }
