@@ -15,12 +15,12 @@ namespace GymMangementBLL.Services.Classes
 
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IPlaneRepository _planeRepository;
+    
 
-        public MemberService( IUnitOfWork unitOfWork ,IPlaneRepository planeRepository)
+        public MemberService( IUnitOfWork unitOfWork)
         {
            _unitOfWork = unitOfWork;
-            _planeRepository = planeRepository;
+          
         }
         public bool CreateMember(CreateMemberViewModel member)
         {

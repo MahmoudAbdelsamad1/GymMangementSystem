@@ -24,7 +24,6 @@ namespace GymMangementPL
             } );
 
             //builder.Services.AddScoped(typeof(IGenericRepository<> ), typeof(GenericRepository<>) );
-            builder.Services.AddScoped<IPlaneRepository, PlanRepository>();
 
             builder.Services.AddScoped<IUnitOfWork, IUnitOfWork>();
 
