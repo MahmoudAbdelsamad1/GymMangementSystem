@@ -18,17 +18,11 @@ namespace GymMangementDAL.Repositories.Classes
                _dbContext = dbContext;
         }
 
-        int IGenericRepository<TEntity>.Add(TEntity entity)
-        {
-            _dbContext.Set<TEntity>().Add(entity);
-            return _dbContext.SaveChanges();
-        }
+        void IGenericRepository<TEntity>.Add(TEntity entity) => _dbContext.Set<TEntity>().Add(entity);
+        
 
-        int IGenericRepository<TEntity>.Delete(TEntity entity)
-        {
-            _dbContext.Set<TEntity>().Remove(entity);
-            return _dbContext.SaveChanges();
-        }
+        void IGenericRepository<TEntity>.Delete(TEntity entity) =>  _dbContext.Set<TEntity>().Remove(entity);
+        
 
         IEnumerable<TEntity> IGenericRepository<TEntity>.GetAll(Func<TEntity, bool> condition)
         {
@@ -43,10 +37,7 @@ namespace GymMangementDAL.Repositories.Classes
             
         }
 
-        int IGenericRepository<TEntity>.Update(TEntity entity)
-        {
-                _dbContext.Set<TEntity>().Update(entity);
-            return _dbContext.SaveChanges();
-        }
+        void IGenericRepository<TEntity>.Update(TEntity entity) => _dbContext.Set<TEntity>().Update(entity);
+
     }
 }
