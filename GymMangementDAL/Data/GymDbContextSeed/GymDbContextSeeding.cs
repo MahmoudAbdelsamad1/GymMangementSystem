@@ -14,32 +14,42 @@ namespace GymMangementDAL.Data.GymDbContextSeed
 
         public static bool SeedData(GymMangementDbContext dbContext)
         {
-            var HasPlans = dbContext.Plans.Any();
-            var HasCategories = dbContext.Categories.Any();
+            try {
 
-            if (HasPlans && HasCategories) return false;
+                var HasPlans = dbContext.Plans.Any();
+                var HasCategories = dbContext.Categories.Any();
 
-            if (!HasPlans) {
+                if (HasPlans && HasCategories) return false;
 
-                var plans = LoadDataFromJsonFiles<Plan>("plans.json");
-                if (plans.Any())
+                if (!HasPlans)
                 {
-                    dbContext.Plans.AddRange(plans);
+
+                    var plans = LoadDataFromJsonFiles<Plan>("plans.json");
+                    if (plans.Any())
+                    {
+                        dbContext.Plans.AddRange(plans);
+                    }
                 }
-            }
 
-            if (!HasCategories)
-            {
-
-                var categories = LoadDataFromJsonFiles<Category>("categories.json");
-                if (categories.Any())
+                if (!HasCategories)
                 {
-                    dbContext.Categories.AddRange(categories);
+
+                    var categories = LoadDataFromJsonFiles<Category>("categories.json");
+                    if (categories.Any())
+                    {
+                        dbContext.Categories.AddRange(categories);
+                    }
                 }
+
+
+                return dbContext.SaveChanges() > 0;
             }
+            catch (Exception ex) {
 
-
-            return dbContext.SaveChanges() > 0;
+                Console.WriteLine( "Failed seeding date: " + ex);
+            
+                return false;
+            }
         }
 
         private static List<T> LoadDataFromJsonFiles<T>(string fileName)
