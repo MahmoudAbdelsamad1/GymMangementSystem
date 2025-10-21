@@ -14,12 +14,15 @@ namespace GymMangementDAL.UnitOfWork.Classes
     {
         private readonly GymMangementDbContext _dbContext;
 
-        public UnitOfWork(GymMangementDbContext dbContext)
+        public UnitOfWork(GymMangementDbContext dbContext, ISessionRepository sessionRepository)
         {
             _dbContext = dbContext;
+            SessionRepository = sessionRepository;
         }
 
         Dictionary<Type,object> Repositories = new Dictionary<Type,object>();
+
+        public ISessionRepository SessionRepository { get; }
 
         public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseModel, new()
         {

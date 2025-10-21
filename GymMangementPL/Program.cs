@@ -29,6 +29,8 @@ namespace GymMangementPL
 
             builder.Services.AddScoped<IUnitOfWork, IUnitOfWork>();
 
+            builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+
             var app = builder.Build();
 
             #region Migarate Database - Data seeding 
