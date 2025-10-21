@@ -1,4 +1,5 @@
 using GymMangementDAL.Data.Contextes;
+using GymMangementDAL.Data.GymDbContextSeed;
 using GymMangementDAL.Repositories.Classes;
 using GymMangementDAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -16,18 +17,31 @@ namespace GymMangementPL
 
             // Ask CLR to create ob from GymMangementDbContext
 
-            builder.Services.AddDbContext<GymMangementDbContext>( options => {
+            builder.Services.AddDbContext<GymMangementDbContext>(options =>
+            {
 
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            
-            
-            } );
+
+
+            });
 
             //builder.Services.AddScoped(typeof(IGenericRepository<> ), typeof(GenericRepository<>) );
 
             builder.Services.AddScoped<IUnitOfWork, IUnitOfWork>();
 
             var app = builder.Build();
+
+            #region Migarate Database - Data seeding 
+
+            var scope = app.Services.CreateScope();
+            var dbContext = scope.ServiceProvider.GetService<GymMangementDbContext>();
+            var pendingMigrations = dbContext.Database.GetPendingMigrations();
+            if (!pendingMigrations?.Any() ?? false)
+                dbContext.Database.Migrate();
+
+            GymDbContextSeeding.SeedData(dbContext);
+            #endregion
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
