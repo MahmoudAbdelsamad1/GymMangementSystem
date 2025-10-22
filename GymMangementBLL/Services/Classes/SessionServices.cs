@@ -32,7 +32,8 @@ namespace GymMangementBLL.Services.Classes
                 Capacity = session.Capacity,
                 Description = session.Description,
                 TrainerName = session.SessionTrainer.Name,
-                CategoryName = session.SessionCategory.Name
+                CategoryName = session.SessionCategory.Name,
+                AvailableSlots = session.Capacity - _unitOfWork.SessionRepository.GetCountOfBookedSlots(session.Id)
 
             });
             
