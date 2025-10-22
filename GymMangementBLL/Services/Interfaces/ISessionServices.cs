@@ -1,4 +1,5 @@
-﻿using GymMangementBLL.ViewModels.SessionsViewModels;
+﻿using GymManagementSystemBLL.ViewModels.SessionViewModels;
+using GymMangementBLL.ViewModels.SessionsViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,9 @@ namespace GymMangementBLL.Services.Interfaces
         int GetCountOfBookedSlots(int sessionId);
 
         SessionViewModel? GetSessionWithTrainerAndCategories(int sessionId);
+
+
+        bool CreateSession(CreateSessionViewModel createdSession);
 
 
     }
