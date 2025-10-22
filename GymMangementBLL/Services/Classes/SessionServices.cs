@@ -49,7 +49,7 @@ namespace GymMangementBLL.Services.Classes
             catch (Exception ex)
             {
 
-                Console.WriteLine("failed to add session: " + ex);
+                Console.WriteLine("failed to add session " + ex);
                 return false;
             }
         }
@@ -59,18 +59,6 @@ namespace GymMangementBLL.Services.Classes
             var sessions = _unitOfWork.SessionRepository.GetAllSessionsWithTrainerAndCategories();
             if (sessions is null || !sessions.Any()) return [];
 
-            //var sessionViewModels = sessions.Select(session => new SessionViewModel
-            //{
-            //    Id = session.Id,
-            //    EndDate = session.EndAt,
-            //    StartDate = session.StartAt,
-            //    Capacity = session.Capacity,
-            //    Description = session.Description,
-            //    TrainerName = session.SessionTrainer.Name,
-            //    CategoryName = session.SessionCategory.Name,
-            //    AvailableSlots = session.Capacity - _unitOfWork.SessionRepository.GetCountOfBookedSlots(session.Id)
-
-            //});
 
             var mappedSessions = _autoMapper.Map<IEnumerable<SessionModel>, IEnumerable<SessionViewModel>>(sessions);
 
@@ -100,9 +88,63 @@ namespace GymMangementBLL.Services.Classes
         }
 
 
+        public UpdateSessionViewModel? GetSessionToUpdate(int sessionId)
+        {
+            var session = _unitOfWork.SessionRepository.GetSessionWithTrainerAndCategory(sessionId);
+            if (session is null) return null;
+
+            return _autoMapper.Map<SessionModel,UpdateSessionViewModel>(session);
+        }
+
+        public bool UpdateSession(int sessionId, UpdateSessionViewModel updatedSession)
+        {
+            try {
+                // valid date 
+                var sessionModel = _unitOfWork.SessionRepository.GetSessionWithTrainerAndCategory(sessionId);
+
+                if (sessionModel is null) return false;
+                if (!IsTimeValid(sessionModel.StartAt, sessionModel.EndAt)) return false;
+               if (_unitOfWork.GetRepository<TrainerModel>().GetById(updatedSession.TrainerId) is null) return false;
+
+               // is session running || Ended || has active booking
+                if (!IsSessionAvailableToUpdated(sessionModel)) return false;
+
+
+                var mappedSession = _autoMapper.Map<UpdateSessionViewModel, SessionModel>(updatedSession);
+                mappedSession.UpdatedDate = DateTime.Now;
+                _unitOfWork.SessionRepository.Update(mappedSession);
+
+                return _unitOfWork.SaveChanges() > 0;
+
+            } catch (Exception ex) {
+
+                Console.WriteLine("failed to add session : " + ex);
+                return false;
+            }
+        }
+
+
+
+
         #region Helper
 
-        bool IsTrainerExist(int TrainerId)
+        bool IsSessionAvailableToUpdated(SessionModel session) {
+
+            if (session.StartAt < DateTime.Now) return false;
+
+            if (session.EndAt > DateTime.Now) return false;
+
+            bool IsSessionHasActiveBooking = _unitOfWork.SessionRepository.GetCountOfBookedSlots(session.Id) > 0;
+
+            if(IsSessionHasActiveBooking) return false;
+
+
+            return true;
+
+        
+        }
+
+        private bool IsTrainerExist(int TrainerId)
         {
 
 
@@ -110,7 +152,7 @@ namespace GymMangementBLL.Services.Classes
 
         }
 
-        bool IsCategoryExist(int CategoryId)
+        private  bool IsCategoryExist(int CategoryId)
         {
 
 
@@ -119,7 +161,7 @@ namespace GymMangementBLL.Services.Classes
         }
 
 
-        bool IsTimeValid(DateTime StartDate, DateTime EndDate)
+        private  bool IsTimeValid(DateTime StartDate, DateTime EndDate)
         {
 
 
@@ -127,6 +169,7 @@ namespace GymMangementBLL.Services.Classes
 
         }
 
+   
         #endregion
     }
 }

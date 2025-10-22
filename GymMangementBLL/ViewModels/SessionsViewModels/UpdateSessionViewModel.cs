@@ -10,11 +10,11 @@ namespace GymManagementSystemBLL.ViewModels.SessionViewModels
 
 		[Required(ErrorMessage = "Start date is required")]
 		[Display(Name = "Start Date & Time")]
-		public DateTime StartDate { get; set; }
+		public DateTime StartAt { get; set; }
 
 		[Required(ErrorMessage = "End date is required")]
 		[Display(Name = "End Date & Time")]
-		public DateTime EndDate { get; set; }
+		public DateTime EndAt { get; set; }
 
 		[Required(ErrorMessage = "Trainer is required")]
 		[Display(Name = "Trainer")]
