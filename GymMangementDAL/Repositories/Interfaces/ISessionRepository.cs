@@ -14,6 +14,8 @@ namespace GymMangementDAL.Repositories.Interfaces
 
         int GetCountOfBookedSlots(int sessionId);
 
+        SessionModel? GetSessionWithTrainerAndCategory(int sessionId);
+
 
     }
 }

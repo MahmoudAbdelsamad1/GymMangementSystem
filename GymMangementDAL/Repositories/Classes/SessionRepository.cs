@@ -23,9 +23,14 @@ namespace GymMangementDAL.Repositories.Classes
             return _dbContext.Sessions.Include(session => session.SessionCategory).Include(session => session.SessionTrainer).ToList();
         }
 
-        public int GetAvailableSlots(int sessionId)
+        public int GetCountOfBookedSlots(int sessionId)
         {
             return _dbContext.MemberSessions.Count(S => S.SessionId == sessionId);
+        }
+
+        public SessionModel? GetSessionWithTrainerAndCategory(int sessionId)
+        {
+           return _dbContext.Sessions.Include(X =>  X.SessionCategory). Include(X => X.SessionTrainer).FirstOrDefault( X => X.Id == sessionId);
         }
     }
 }

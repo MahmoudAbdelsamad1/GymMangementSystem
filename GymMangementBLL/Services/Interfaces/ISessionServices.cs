@@ -14,5 +14,8 @@ namespace GymMangementBLL.Services.Interfaces
 
         int GetCountOfBookedSlots(int sessionId);
 
+        SessionViewModel? GetSessionWithTrainerAndCategories(int sessionId);
+
+
     }
 }
