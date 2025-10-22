@@ -124,6 +124,19 @@ namespace GymMangementBLL.Services.Classes
         }
 
 
+        public bool DeleteSession(int sessionId)
+        {
+            var session = _unitOfWork.SessionRepository.GetSessionWithTrainerAndCategory(sessionId);
+            if (session is null) return false;
+
+            if(!IsSessionAvailableToDelete(session)) return false;
+
+            _unitOfWork.SessionRepository.Delete(session);
+
+            return _unitOfWork.SaveChanges() > 0;
+        }
+
+
 
 
         #region Helper
@@ -142,6 +155,23 @@ namespace GymMangementBLL.Services.Classes
             return true;
 
         
+        }
+
+        bool IsSessionAvailableToDelete(SessionModel session)
+        {
+            // session on future 
+            if (session.StartAt > DateTime.Now) return false;
+
+            if (session.StartAt < DateTime.Now && session.EndAt > DateTime.Now) return false;
+
+            bool IsSessionHasActiveBooking = _unitOfWork.SessionRepository.GetCountOfBookedSlots(session.Id) > 0;
+
+            if (IsSessionHasActiveBooking) return false;
+
+
+            return true;
+
+
         }
 
         private bool IsTrainerExist(int TrainerId)
@@ -169,7 +199,8 @@ namespace GymMangementBLL.Services.Classes
 
         }
 
-   
+    
+
         #endregion
     }
 }
