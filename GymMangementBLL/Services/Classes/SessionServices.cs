@@ -4,6 +4,7 @@ using GymMangementBLL.Services.Interfaces;
 using GymMangementBLL.ViewModels.SessionsViewModels;
 using GymMangementDAL.Models;
 using GymMangementDAL.Repositories.Classes;
+using GymMangementDAL.Repositories.Interfaces;
 using GymMangementDAL.UnitOfWork.Classes;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,10 @@ namespace GymMangementBLL.Services.Classes
 {
     public class SessionServices : ISessionServices
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _autoMapper;
 
-        public SessionServices(UnitOfWork unitOfWork, IMapper autoMapper)
+        public SessionServices(IUnitOfWork unitOfWork, IMapper autoMapper)
         {
             _unitOfWork = unitOfWork;
             _autoMapper = autoMapper;
