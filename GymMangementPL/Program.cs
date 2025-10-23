@@ -3,6 +3,7 @@ using GymMangementDAL.Data.Contextes;
 using GymMangementDAL.Data.GymDbContextSeed;
 using GymMangementDAL.Repositories.Classes;
 using GymMangementDAL.Repositories.Interfaces;
+using GymMangementDAL.UnitOfWork.Classes;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymMangementPL
@@ -28,7 +29,7 @@ namespace GymMangementPL
 
             //builder.Services.AddScoped(typeof(IGenericRepository<> ), typeof(GenericRepository<>) );
 
-            builder.Services.AddScoped<IUnitOfWork, IUnitOfWork>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 
