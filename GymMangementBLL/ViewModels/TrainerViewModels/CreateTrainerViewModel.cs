@@ -32,7 +32,7 @@ namespace GymMangementBLL.ViewModels.TrainerViewModels
         public DateOnly DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Gender is required ")]
-        public Gender Gender { get; set; } = null!;
+        public Gender Gender { get; set; } 
 
         [Required(ErrorMessage = "BuildingNumber is required ")]
         [Range(1,500,ErrorMessage ="Invalid Build Number")]
