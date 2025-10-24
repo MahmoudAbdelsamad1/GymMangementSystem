@@ -17,5 +17,18 @@ namespace GymMangementPL.Controllers
             var members = _memberService.GetAll();
             return View(members);
         }
+
+        public ActionResult MemberDetails(int id)
+        {
+            if(id <= 0) return RedirectToAction(nameof(Index));
+
+            var details = _memberService.GetMemberDetails(id);
+            if(details is null) return RedirectToAction(nameof(Index));
+
+            Console.WriteLine($" $$$$$&&&%%%%%%%%4 {details.Phone} ///////// {details.PlanName}");
+
+            return View(details);
+        }
+
     }
 }

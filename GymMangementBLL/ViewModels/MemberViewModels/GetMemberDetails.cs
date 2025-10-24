@@ -39,11 +39,11 @@ namespace GymMangementBLL.ViewModels.MemberViewModels
 
         [Required(ErrorMessage = "Gender is required ")]
 
-        public Gender Gender { get; set; }
+        public string Gender { get; set; } = null!;
 
         [Required(ErrorMessage = "Date of birhth is required ")]
-        [DataType(DataType.Date,ErrorMessage ="invalid date of birth")]
-        public DateOnly DateOfBirth { get; set; }
+        [DataType(DataType.Date, ErrorMessage = "invalid date of birth")]
+        public string DateOfBirth { get; set; } = null!;
 
         [Required(ErrorMessage = "Member Session Start Date is required ")]
 
