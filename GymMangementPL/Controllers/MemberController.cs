@@ -20,12 +20,20 @@ namespace GymMangementPL.Controllers
 
         public ActionResult MemberDetails(int id)
         {
-            if(id <= 0) return RedirectToAction(nameof(Index));
+            if(id <= 0)  {
+
+                TempData["ErrorMessage"] = " Id can not be 0 or negative number";
+              return  RedirectToAction(nameof(Index));
+
+            }
 
             var details = _memberService.GetMemberDetails(id);
-            if(details is null) return RedirectToAction(nameof(Index));
+            if(details is null)
+            {
+                TempData["ErrorMessage"] = "Member not found ";
+               return RedirectToAction(nameof(Index));
+            }
 
-            Console.WriteLine($" $$$$$&&&%%%%%%%%4 {details.Phone} ///////// {details.PlanName}");
 
             return View(details);
         }
