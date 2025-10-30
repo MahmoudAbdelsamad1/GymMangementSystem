@@ -143,13 +143,14 @@ namespace GymMangementBLL.Services.Classes
             }
         }
 
-        public MemberViewModel? GetMemberDetails(int id)
+        public GetMemberDetails? GetMemberDetails(int id)
         {
             var member = _unitOfWork.GetRepository<MemberModel>().GetById(id);
 
             if(member is not null)
             {
-                var memberDetails =  new MemberViewModel()
+               
+                var memberDetails =  new GetMemberDetails()
                 {
 
                     Name = member.Name,
@@ -161,15 +162,21 @@ namespace GymMangementBLL.Services.Classes
                     DateOfBirth = member.DateOfBirth.ToShortDateString()
                 };
 
+
+
                 // get active plan for mevember  
 
-                var ActivePlan = _unitOfWork.GetRepository<MemberPlanModel>().GetAll(X=>X.Id == member.Id && X.Status == "Active").FirstOrDefault();
+                var ActivePlan = _unitOfWork.GetRepository<MemberPlanModel>().GetAll(X=>X.MemberId == member.Id && X.Status == "Active").FirstOrDefault();
+                var teste = _unitOfWork.GetRepository<MemberPlanModel>().GetAll();
+         
+                if (ActivePlan is not null) {
+                    
 
-                if (ActivePlan is not null) { 
-                
                     memberDetails.MemberSessionStartDate = ActivePlan.CreatedDate.ToLongDateString();
                     memberDetails.MemberSessionEndDate = ActivePlan.EndDate.ToLongDateString();
-                    memberDetails.PlanName = ActivePlan.Plan.Name;
+                    var plane = _unitOfWork.GetRepository<Plan>().GetById(ActivePlan.PlanId);
+                    if(plane is not null) 
+                    memberDetails.PlanName = plane.Name;
                 }
 
                 return memberDetails;
