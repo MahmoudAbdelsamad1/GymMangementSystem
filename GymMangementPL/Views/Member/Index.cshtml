@@ -1,13 +1,13 @@
 ﻿@using GymMangementBLL.ViewModels.MemberViewModels
 @model IEnumerable<MemberViewModel>
 
-               @*
-         <div id="Alert" class="alert alert-success alert-dismissible fade show">
-                <i class="bi bi-check-circle-fill me-2"></i>
+            @if( TempData["SuccessMessage"] is not null) {
+    <div id="Alert" class="alert alert-success alert-dismissible fade show">
+        <i class="bi bi-check-circle-fill me-2"></i>
                 Member Created Successfully
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-                           *@
+            </div>            }
+                           
 
 @if(TempData["ErrorMessage"] is not null){ 
 <div id="Alert" class="alert alert-danger alert-dismissible fade show">

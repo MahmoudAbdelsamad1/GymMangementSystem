@@ -28,7 +28,7 @@ namespace GymMangementBLL.ViewModels.MemberViewModels
 
         [Required(ErrorMessage = "Phone Is Required")]
         [DataType(DataType.PhoneNumber, ErrorMessage = "Invalid phone num")]
-        [RegularExpression(@"^(010|011|012|015)\d{8}$")]
+        [RegularExpression(@"^(010|011|012|015)\d{8}$" , ErrorMessage = "pls enter valid egyption phone")]
         public string Phone { get; set; } = null!;
 
         [Required(ErrorMessage = "DateOfBirth Is Required")]

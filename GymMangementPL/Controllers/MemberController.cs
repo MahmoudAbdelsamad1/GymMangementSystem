@@ -1,5 +1,6 @@
 ﻿using GymMangementBLL.Services.Classes;
 using GymMangementBLL.Services.Interfaces;
+using GymMangementBLL.ViewModels.MemberViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymMangementPL.Controllers
@@ -38,5 +39,59 @@ namespace GymMangementPL.Controllers
             return View(details);
         }
 
+
+        public ActionResult Create()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateMember(CreateMemberViewModel createdMember)
+        {
+
+
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("DataInvalid", "Check data and missing fields");
+                return View(nameof(Create), createdMember);
+
+            }
+           bool result =  _memberService.CreateMember(createdMember);
+            if (!result)
+            {
+
+                TempData["FailedMessage"] = "Failed to create member check mail or phone duplicated";
+
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Member Created Successfully";
+            }
+
+            return RedirectToAction(nameof(Index));
+
+
+        }
+
+
+        public ActionResult HealthRecordData(int id)
+        {
+
+           HealthRecordViewModel details  =  _memberService.GetMemberHealthDetails(id);
+
+            if (details is null) {
+
+                TempData["ErrorMessage"] = "No Derails for this member ";
+               return  RedirectToAction(nameof(Index));
+            }
+
+            return View(details);
+
+
+
+        }
+
     }
 }
+ 
