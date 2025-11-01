@@ -71,6 +71,7 @@ namespace GymMangementBLL.Services.Classes
             if (trainers is null) return [];
             return trainers.Select(X => new TrainerViewModel()
             {
+                Id = X.Id,
                 Email = X.Email,
                 Name = X.Name,
                 Phone = X.Phone,
@@ -87,6 +88,7 @@ namespace GymMangementBLL.Services.Classes
             return new TrainerViewModel { 
             
             
+                Id = trainer.Id,
                 Name = trainer.Name,
                 Phone = trainer.Phone,
                 Email = trainer.Email,
