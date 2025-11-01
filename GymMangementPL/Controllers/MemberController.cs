@@ -61,7 +61,7 @@ namespace GymMangementPL.Controllers
             if (!result)
             {
 
-                TempData["FailedMessage"] = "Failed to create member check mail or phone duplicated";
+                TempData["ErrorMessage"] = "Failed to create member check mail or phone duplicated";
 
             }
             else
@@ -77,12 +77,16 @@ namespace GymMangementPL.Controllers
 
         public ActionResult HealthRecordData(int id)
         {
+            if (id <= 0) {
+                TempData["ErrorMessage"] = "Id can not be zer or negative num ";
+                return RedirectToAction(nameof(Index));
+            }
 
            HealthRecordViewModel details  =  _memberService.GetMemberHealthDetails(id);
 
             if (details is null) {
 
-                TempData["ErrorMessage"] = "No Derails for this member ";
+                TempData["ErrorMessage"] = "Member details no found";
                return  RedirectToAction(nameof(Index));
             }
 
@@ -92,6 +96,97 @@ namespace GymMangementPL.Controllers
 
         }
 
+
+        
+        public ActionResult MemberEdit(int id)
+        {
+            if (id <= 0)
+            {
+                TempData["ErrorMessage"] = "Id can not be zer or negative num ";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var memberToUpdate = _memberService.GetMemberToUpdate(id);
+            if (memberToUpdate is  null) {
+
+                TempData["ErrorMessage"] = "Member no found ";
+                return RedirectToAction(nameof(Index));
+
+            }
+
+            return View(memberToUpdate);
+        }
+
+        [HttpPost]
+        public ActionResult MemberEdit([FromRoute] int id, UpdateMemberViewModel updatedMember)
+        {
+            if (!ModelState.IsValid)
+            {
+
+                ModelState.AddModelError("DataInvalid", "Check data and missing fields");
+
+                return View(updatedMember);
+
+            }
+
+            var result = _memberService.UpdateMember(id, updatedMember);
+
+            if (!result)
+            {
+                TempData["FailedMessage"] = "Failed to update member check mail or phone duplicated";
+
+            }
+            else {
+
+                TempData["SuccessMessage"] = "Member Updated Successfully";
+
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        public ActionResult Delete(int id) {
+
+          var result =   _memberService.GetMemberDetails(id);
+
+            if (result is null) {
+
+                TempData["ErrorMessage"] = "Member not found ";
+
+                RedirectToAction(nameof(Index));
+
+            }
+            ViewBag.MemberId = id;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DeleteConfirmed([FromForm] int id) {
+
+
+            if (id <= 0) {
+
+                TempData["ErrorMessage"] = "Id can not be  ozeror negative num";
+            }
+
+          var result =   _memberService.DeleteMember(id);
+
+            if (!result)
+            {
+
+                TempData["ErrorMessage"] = "Failed to delete this member";
+
+            }
+            else {
+
+                TempData["SuccessMessage"] = "Member Deleted Successfully";
+
+            }
+
+           return RedirectToAction(nameof(Index));
+
+        }
     }
 }
  

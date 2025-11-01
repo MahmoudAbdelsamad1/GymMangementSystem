@@ -1,4 +1,5 @@
-﻿using GymMangementBLL.Services.Interfaces;
+﻿using AutoMapper.Execution;
+using GymMangementBLL.Services.Interfaces;
 using GymMangementBLL.ViewModels.MemberViewModels;
 using GymMangementDAL.Models;
 using GymMangementDAL.Repositories.Interfaces;
@@ -76,9 +77,11 @@ namespace GymMangementBLL.Services.Classes
             var member = _unitOfWork.GetRepository<MemberModel>().GetById(MemberId);
 
             if (member is null) return false;
-            // miust check there is no active sessions 
+            // must check there is no active sessions 
             // member.MemberSessions.Select(X=> X.Session.StartAt > DateTime.Now).Any();
-            bool hasActiveSessions = _unitOfWork.GetRepository<MemberSessionModel>().GetAll(X => X.Id == member.Id && X.Session.StartAt > DateTime.Now).Any();  
+            var  BokedSessionsIds = _unitOfWork.GetRepository<MemberSessionModel>().GetAll(X => X.Id == member.Id).Select(X=>X.Id);  
+
+            var hasActiveSessions = _unitOfWork.GetRepository<SessionModel>().GetAll(X=> BokedSessionsIds.Contains(X.Id) && X.StartAt > DateTime.Now ).Any();
 
             if (hasActiveSessions) return false;
             // must delete any plans related wih this member before delete member (avid exeption for relation between them)
@@ -227,10 +230,13 @@ namespace GymMangementBLL.Services.Classes
             try
             {
                 var member = _unitOfWork.GetRepository<MemberModel>().GetById(memberId);
-                if(member is  null) return false;
+                if (member is null) return false;
                 else
                 {
-                    if (IsEmailExist(updatedMember.Email) || IsPhoneExist(updatedMember.Phone)) return false;
+                    var isEmailExist = _unitOfWork.GetRepository<MemberModel>().GetAll(X => X.Email == member.Email && X.Id != member.Id).Any();
+                    var isPhoneExisted = _unitOfWork.GetRepository<MemberModel>().GetAll(X => X.Phone == member.Phone && X.Id != member.Id).Any();
+
+                    if (isEmailExist || isPhoneExisted) return false;
                     else { 
                     
                         member.Name = updatedMember.Name;
